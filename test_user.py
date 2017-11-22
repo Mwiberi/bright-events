@@ -1,6 +1,7 @@
 import unittest
 
 from users import user
+from users import login
 
 class userRegistrationDetailsTestCase(unittest.TestCase):
     def setUp(self):
@@ -23,5 +24,5 @@ class userLoginTestCase(unittest.TestCase):
     def test_loginDetailIfTheyExist(self):
         result=self.myUser.login_user("", "joe")
         self.assertEquals("Kindly fill out all the form fields", result)
-    def test_checkIfUserExistsInTheUsersMemory
+    #def test_checkIfUserExistsInTheUsersMemory(self):
 
