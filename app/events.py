@@ -28,6 +28,7 @@ def create_events():
     }
     events.append(event)
     return jsonify({'event': event}), 201
+    
 # Function to the get event based on the ID
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['GET'])
 def get_event(eventID):
