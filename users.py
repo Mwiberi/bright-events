@@ -32,6 +32,8 @@ class user(object):
             return "Kindly fill out all the form fields"
   
 class login(user):
+    def __init__(self):
+        user.__init__(self)
     def login_user(self, uname, pwd):
         self.uname =uname
         self.pwd = pwd
