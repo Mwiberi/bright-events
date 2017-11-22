@@ -22,3 +22,14 @@ class event(object):
         if name and eventID and location and date:
             #store details in a dictionary
             self.eventDetails={'Event Name':name,'Event ID':eventID,'Location':location,'Date':date}
+    def update_event(self, eventID):
+        pass
+    def delete_event(self, eventID):
+        pass
+    def retrieve_event(self, eventID):
+        pass
+    def RSVP_event(self, eventID):
+        pass
+
+    def view_eventGuests(self, eventID):
+        pass
