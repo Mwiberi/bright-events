@@ -3,8 +3,9 @@ from users import user
 
 class userRegistrationTestCase(unittest.TestCase):
     def setUp(self):
-        User=user()
+        User=user(1, 2, 3, 4, 2)
 
     def test_typeOfFields(self):
-        result=User.add_user(1, 2, 3, 4, 4)
-        self.assertRaises(ValueError)
+        User=user(1, 2, 3, 4, 2)
+        result=User.add_user(1, 2, 3, 4, 2)
+        self.assertEquals("Invalid input. Enter character elements", result)
