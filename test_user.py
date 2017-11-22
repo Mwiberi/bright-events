@@ -1,11 +1,27 @@
 import unittest
+
 from users import user
 
-class userRegistrationTestCase(unittest.TestCase):
+class userRegistrationDetailsTestCase(unittest.TestCase):
     def setUp(self):
-        User=user(1, 2, 3, 4, 2)
+        self.myUser=user(1, 2, 3, 4, 2)
 
     def test_typeOfFields(self):
-        User=user(1, 2, 3, 4, 2)
-        result=User.add_user(1, 2, 3, 4, 2)
+        result=self.myUser.add_user(1, 2, 3, 4, 2)
         self.assertEquals("Invalid input. Enter character elements", result)
+    def test_emptyFields(self):
+        result=self.myUser.add_user("", "","" , "", "")
+        self.assertEquals("Kindly fill out all the form fields", result)
+    def test_lengthPasswordLessThanEightCharacters(self):
+        result=self.myUser.add_user("sue", "smith","sue" , "sue@oulook.com", "vg")
+        self.assertEquals("Kindly fill out all the form fields", result)
+
+#class for checking the user details on the login page
+class userLoginTestCase(unittest.TestCase):
+    def setUp(self):
+        self.myUser=user(1, 2, 3, 4, 2)
+    def test_loginDetailIfTheyExist(self):
+        result=self.myUser.login_user("", "joe")
+        self.assertEquals("Kindly fill out all the form fields", result)
+    def test_checkIfUserExistsInTheUsersMemory
+
