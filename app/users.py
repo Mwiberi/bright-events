@@ -51,6 +51,7 @@ user = [user for user in userss if user['uname'] == uname and user['pwd'] == pwd
  if len(user) == 0:
         abort(401)
 else:
+    session.start() #starts a session for the logged in user
     return jsonify({'user': user[0]})
 
 # make a better eror 401 response
@@ -59,7 +60,10 @@ def unauthorized():
     return make_response(jsonify({'error': 'Unauthorizd!Incorrect username or password'}), 401)
 
    
-
+#The logout Function
+@app.route('brightEvents/api/v1/auth/logout')
+def user_logout():
+    session.clear
 
 
 
