@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, jsonify, 
+from flask import Flask, jsonify 
 from flask import abort
 from flask import request
 from flask import make_response
@@ -36,7 +36,7 @@ def get_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
-    return jsonify({'event': event[0]})
+    return rendered template('userEvents.html', result=jsonify({'event': event[0]})) 
 
 #creating a much better error 404 response
 @app.errorhandler(404)
