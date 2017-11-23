@@ -1,10 +1,7 @@
 
 #!flask/bin/python
 from flask import Flask, jsonify
-from flask import abort
-from flask import request
-from flask import make_response
-from flask import render_template
+from flask import Flask, flash, redirect, render_template, request, session, abort, make_response 
 from flask_httpauth import HTTPBasicAuth
 #create an object of HTTPBasicAuth
 auth=HTTPBasicAuth()
@@ -47,17 +44,23 @@ def create_users():
     return jsonify({'user': user}), 201
 
 #Function to get the user login details and user login if they are correct
-@app.route('/brightEvents/api/v1/auth/login', methods=['GET'])
-@auth.login_required
+@app.route('/brightEvents/api/v1/auth/login', methods=['POST'])
+#@auth.login_required
 @auth.get_password
-def getLoginDetails(uname,pwd):
-    user = [user for user in users if user['uname'] == uname and user['pwd'] == pwd]
+def getLoginDetails():
+    user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
     if len(user) == 0:
         abort(401)
     else:
         def get_home():
-            return render_template('/design/UI/index.html')
-            session.start() #starts a session for the logged in user
+            session['logged_in'] = True
+#Function to login the user
+@app.route('/')
+def home():
+    if not session.get('logged_in'):
+        return render_template('user_login.html')
+    else:
+        return render_template('index.html')            
    
 
 # make a better eror 401 response
@@ -65,12 +68,15 @@ def getLoginDetails(uname,pwd):
 def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized!Incorrect username or password'}), 401)
 
+
+
    
 #The logout Function
 @app.route('/brightEvents/api/v1/auth/logout')
 def user_logout():
+    session['logged_in'] = False
+    return home()
     
-    return jsonify({'Success': 'logged out successfully'})
 
 
 
