@@ -33,7 +33,8 @@ users = [
 @app.route('/brightEvents/api/v1/auth/register', methods=['POST'])
 def create_users():
     if not request.json or not 'uname' in request.json:
-        abort(400)
+        flash('Registration unsuccessful')
+        return render_template('user_registration.html')
         user = {
         'fname': request.json['fname'],
         'lname': request.json['lname'],
@@ -42,7 +43,11 @@ def create_users():
         'pwd': request.json['pwd']
     }
     users.append(user)
-    return jsonify({'user': user}), 201
+    
+    return render_template('user_login.html')
+   
+        
+
 
 #Function to get the user login details and user login if they are correct
 @app.route('/brightEvents/api/v1/auth/login', methods=['POST'])
