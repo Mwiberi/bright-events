@@ -3,13 +3,14 @@
 from flask import Flask, jsonify
 from flask import Flask, flash, redirect, render_template, request, session, abort, make_response 
 from flask_httpauth import HTTPBasicAuth
+
 #create an object of HTTPBasicAuth
 auth=HTTPBasicAuth()
 
 
 #create and instance of the Flask class
 app = Flask(__name__)
-
+app.secret_key = "superdooper"
 users = [
     {
         'fname': 'sue',
@@ -49,18 +50,20 @@ def create_users():
 @auth.get_password
 def getLoginDetails():
     user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
-    if len(user) == 0:
-        abort(401)
+    if len(user) >= 1:
+        session['logged_in'] = True
     else:
-        def get_home():
-            session['logged_in'] = True
+        flash('Wrong username or password')
+    return home()
+
 #Function to login the user
 @app.route('/')
 def home():
     if not session.get('logged_in'):
         return render_template('user_login.html')
     else:
-        return render_template('index.html')            
+        return render_template('index.html')  
+             
    
 
 # make a better eror 401 response
@@ -83,3 +86,4 @@ def user_logout():
  #The main method
 if __name__ == '__main__':
     app.run(debug=True)
+    
