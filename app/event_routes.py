@@ -1,8 +1,7 @@
 #!flask/bin/python
 from flask import Flask, jsonify 
-from flask import abort
-from flask import request
-from flask import make_response
+from flask import Flask, flash, redirect, render_template, request, session, abort, make_response 
+
 
 
 app = Flask(__name__)
@@ -13,6 +12,13 @@ events = [
         'eventID': 1,
         'location': 'Nairobi', 
         'date': '12-13-2017'
+
+    },
+    {
+        'eventName': 'Don Moen concert',
+        'eventID': 2,
+        'location': 'Citam', 
+        'date': '11-12-2017'
 
     }
 ]
@@ -36,12 +42,12 @@ def get_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
-    return render_template('userEvents.html', result=jsonify({'event': event[0]})) 
+    return render_template('userEvents.html', result=events) 
 
 #creating a much better error 404 response
 @app.errorhandler(404)
 def not_found(error):
-    return make_response(jsonify({'Error': 'Not found'}), 404)
+    return make_response(jsonify({'Error': 'Event Not found'}), 404)
 
 #Function to update an event
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['PUT'])

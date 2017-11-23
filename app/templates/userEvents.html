@@ -25,11 +25,15 @@
         </div>
                 
 	<table>
+    
+
+</table>
         <thead>
           <tr>
-              <th>Event Title</th>
-              <th>Event ID</th>
+            <th>Event ID</th>
+            <th>Event Title</th>
               <th>Location</th>
+              <th>Date</th>
               <th>Edit</th>
               <th>Delete</th>
             
@@ -37,12 +41,16 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+          
+              
+        <tr>{% for event in result %}
+            <td>{{ event.eventID }}</td>
+            <td>{{ event.eventName }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.date }}</td>
             <td><a href='userEvents.html'> Edit</td>
-              <th><a href='userEvents.html'> Delete</th>
+            <td><a href='userEvents.html'> Delete</td>
+            {% endfor %}
           </tr>
           
         </tbody>
