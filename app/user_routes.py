@@ -35,7 +35,7 @@ def create_users():
     if not request.json or not 'uname' in request.json:
         flash('Registration unsuccessful')
         return render_template('user_registration.html')
-        user = {
+    user = {
         'fname': request.json['fname'],
         'lname': request.json['lname'],
         'uname': request.json['uname'],
