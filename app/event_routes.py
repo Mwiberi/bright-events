@@ -26,7 +26,8 @@ events = [
 @app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
     if request.method == 'GET':
-        return render_template('userEvents.html', result=events) 
+        #return render_template('userEvents.html', result= jsonify(events)) 
+        return jsonify(events), 201
     else:
 
         if not request.json or not 'eventName' in request.json:
@@ -41,7 +42,7 @@ def create_events():
         events.append(event)
         flash('Event added successfully')
         #return render_template('userEvents.html', result=jsonify({'event': event}))
-        return jsonify({'event': events}), 201
+        return jsonify(events), 201
     
 
 # Function to the get event based on the ID
