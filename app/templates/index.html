@@ -19,6 +19,13 @@
     font-family: Lucida Calligraphy;
   }
   </style>
+  <script>
+    function get_eventID() {
+    var x = document.getElementById("demo")
+    x.innerHTML = Math.floor((Math.random() * 100) + 1);
+    return x.innerHTML;
+}
+    </script>
     </head>
     <nav>
     <div class="nav-wrapper">
@@ -29,7 +36,7 @@
            {% block body %}
 {% if session['logged_in'] %}
 <li><p>Hey, Welcome!</p></li>
-        <li><a href="/brightEvents/api/v1/auth/register">Register</a></li>
+        
         
         <li><a href="/brightEvents/api/v1/events/">View all Events</a></li>
         <li><a href='/brightEvents/api/v1/auth/logout'>Logout</a>
@@ -49,9 +56,19 @@
         </div>
         
   Event Name<input type="text" name="ename" placeholder="Coke Studio 4">
-	Event ID<input type="number" name="eid" placeholder="456">
+	Event ID<input type="number" id="demo" name="eid" placeholder="456" onload="" disabled>
 	Location<input type="text" name="location" placeholder="Karen">
 	Date<input type="datetime" name="date" placeholder="25th Dec, 2017">
+  Category<select name="cat">
+                  <option value = "">Select Event Location</option>
+                  <option value = "1">Nairobi</option>
+                  <option value = "2">Kisumu</option>
+                  <option value = "3">Mombasa</option>
+                  <option value = "4">Eldoret</option>
+                  <option value = "5">Nakuru</option>
+                  <option value = "6">Nyeri</option>
+               </select>               
+            
 	
 
     <button class="btn waves-effect waves-light" type="submit" name="submit">Create Event
@@ -64,6 +81,7 @@
 {% else %}
 
 <li><a href="/brightEvents/api/v1/auth/login">Login</a></li>
+<li><a href="/brightEvents/api/v1/auth/register">Register</a></li>
       </ul>
     </div>
   </nav>
@@ -79,7 +97,7 @@
         </div>
         
   Event Name<input type="text" name="ename" placeholder="Coke Studio 4">
-	Event ID<input type="number" name="eid" placeholder="456" value="random.randrange(0, 101, 2)" disabled>
+	Event ID<input type="number" name="eid" placeholder="456" value=get_eventID() disabled>
 	Location<input type="text" name="location" placeholder="Karen">
 	Date<input type="datetime" name="date" placeholder="25th Dec, 2017">
 	

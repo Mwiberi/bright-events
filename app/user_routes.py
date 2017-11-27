@@ -36,21 +36,20 @@ def create_users():
         flash('Registration unsuccessful')
         return render_template('user_registration.html')
     user = {
-        'fname': request.json['fname'],
-        'lname': request.json['lname'],
-        'uname': request.json['uname'],
-        'email': request.json['email'],
-        'pwd': request.json['pwd']
+        'fname': request.form['fname'],
+        'lname': request.form['lname'],
+        'uname': request.form['uname'],
+        'email': request.form['email'],
+        'pwd': request.form['pwd']
     }
     users.append(user)
-    
     return render_template('user_login.html')
    
         
 
 
 #Function to get the user login details and user login if they are correct
-@app.route('/brightEvents/api/v1/auth/login', methods=['POST'])
+@app.route('/brightEvents/api/v1/auth/login', methods=['GET','POST'])
 #@auth.login_required
 @auth.get_password
 def getLoginDetails():

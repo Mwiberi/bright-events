@@ -23,7 +23,7 @@ events = [
     }
 ]
 #Function to create new events
-@app.route('/brightEvents/api/v1/events', methods=['POST'])
+@app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
     if not request.json or not 'eventName' in request.json:
         abort(400)
