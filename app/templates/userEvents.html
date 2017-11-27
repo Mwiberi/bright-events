@@ -24,26 +24,24 @@
           <input id="search" type="search" placeholder="search events">
         </div>
                 
-	<table>
-    
+	<!--A table to display the events in a tabular manner-->   
 
-</table>
+<table class="bordered" >
         <thead>
           <tr>
-            <th>Event ID</th>
-            <th>Event Title</th>
-              <th>Location</th>
-              <th>Date</th>
-              <th>Edit</th>
-              <th>Delete</th>
+            <th>Event ID </th>
+            <th>Event Title </th>
+            <th>Location </th>
+            <th>Date </th>
+            <th>Edit </th>
+            <th>Delete </th>
             
           </tr>
         </thead>
 
         <tbody>
           
-              
-        <tr>{% for event in result %}
+            <tr>{% for event in result %}
             <td>{{ event.eventID }}</td>
             <td>{{ event.eventName }}</td>
             <td>{{ event.location }}</td>

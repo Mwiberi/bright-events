@@ -22,16 +22,16 @@ events = [
 
     }
 ]
-#Function to create new events
+#Functions to create new events
 @app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
     if request.method == 'GET':
-        #return render_template('userEvents.html', result= jsonify(events)) 
-        return jsonify(events), 201
+        return render_template('userEvents.html', result= events) 
+        #return jsonify(events), 201 --. would apply if the api was not connected to the templates
     else:
-
         if not request.json or not 'eventName' in request.json:
             abort(400)
+            flash('Unable to add event')
             return render_template('index.html')
             event = {
         'eventID': events[-1]['id'] + 1,
@@ -51,7 +51,10 @@ def get_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
-    return render_template('userEvents.html', result=events) 
+    results=[]
+    results.append(event)
+    #return jsonify(results)
+    return render_template('userEvents.html', result=results)
 
 #creating a much better error 404 response
 @app.errorhandler(404)
@@ -90,6 +93,7 @@ def delete_event(eventID):
 #Function to rsvp to an event
 @app.route('/brightEvents/api/v1/events/<int:eventID>/rsvp', methods=['POST'])
 def send_reply():
+    
     pass
 
 
