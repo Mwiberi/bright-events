@@ -50,7 +50,7 @@ def get_event(eventID):
 #creating a much better error 404 response
 @app.errorhandler(404)
 def not_found(error):
-    return make_response(jsonify({'Error': 'Event Not found'}), 404)
+    return make_response(jsonify({'Error': 'Not found'}), 404)
 
 #Function to update an event
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['PUT'])
