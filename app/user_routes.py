@@ -30,7 +30,7 @@ users = [
 ]
 
 #Function to create a new user
-@app.route('/brightEvents/api/v1/auth/register', methods=['POST'])
+@app.route('/brightEvents/api/v1/auth/register', methods=['GET','POST'])
 def create_users():
     if not request.json or not 'uname' in request.json:
         flash('Registration unsuccessful')
