@@ -35,15 +35,17 @@ def create_users():
     if not request.json or not 'uname' in request.json:
         flash('Registration unsuccessful')
         return render_template('user_registration.html')
-    user = {
+    else:
+        user = {
         'fname': request.form['fname'],
         'lname': request.form['lname'],
         'uname': request.form['uname'],
         'email': request.form['email'],
         'pwd': request.form['pwd']
     }
-    users.append(user)
-    return render_template('user_login.html')
+        users.append(user)
+        flash('Thanks for signing up please login')
+        return render_template('user_login.html')
    
         
 
@@ -56,6 +58,7 @@ def getLoginDetails():
     user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
     if len(user) >= 1:
         session['logged_in'] = True
+        
     else:
         flash('Wrong username or password')
     return home()

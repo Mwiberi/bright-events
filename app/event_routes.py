@@ -35,6 +35,7 @@ def create_events():
         'date': request.json['date']
     }
     events.append(event)
+    flash('Event added successfully')
     return render_template('userEvents.html', result=jsonify({'event': event}))
     #return jsonify({'event': event}), 201
     
@@ -79,6 +80,13 @@ def delete_event(eventID):
         abort(404)
     event.remove(event[0])
     return jsonify({'result': True})
+
+
+#Function to rsvp to an event
+@app.route('/brightEvents/api/v1/events/<int:eventID>/rsvp', methods=['POST'])
+def send_reply():
+    pass
+
 
     # The main method
 if __name__ == '__main__':
