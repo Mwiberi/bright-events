@@ -67,6 +67,7 @@ def getLoginDetails():
 @app.route('/')
 def home():
     if not session.get('logged_in'):
+        flash('You need to log in to proceed')
         return render_template('user_login.html')
     else:
         return render_template('index.html')  
