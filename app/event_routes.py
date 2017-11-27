@@ -25,24 +25,28 @@ events = [
 #Functions to create new events
 @app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
-    if request.method == 'GET':
-        return render_template('userEvents.html', result= events) 
-        #return jsonify(events), 201 --. would apply if the api was not connected to the templates
-    else:
-        if not request.json or not 'eventName' in request.json:
-            abort(400)
-            flash('Unable to add event')
-            return render_template('index.html')
-            event = {
-        'eventID': events[-1]['id'] + 1,
-        'eventName': request.json['eventName'],
-        'location': request.json['location'],
-        'date': request.json['date']
+    if not 'eventName':
+        abort(400)
+        flash('Unable to add event')
+        return render_template('index.html')
+   
+    event = {
+        'eventID': events[-1]['eventID'] + 1,
+        'eventName': request.form['eventName'],
+        'location': request.form['location'],
+        'date': request.form['date']
     }
-        events.append(event)
-        flash('Event added successfully')
-        #return render_template('userEvents.html', result=jsonify({'event': event}))
-        return jsonify(events), 201
+    events.append(event)
+    flash('Event added successfully')
+    #return render_template('userEvents.html', result=jsonify({'event': event}))
+    return jsonify(events), 201
+
+#Function to get all the events
+@app.route('/brightEvents/api/v1/events', methods=['GET'])
+def get_allEvents():
+    return render_template('userEvents.html', result= events) 
+    #return jsonify(events), 201 --. would apply if the api was not connected to the templates
+
     
 
 # Function to the get event based on the ID
