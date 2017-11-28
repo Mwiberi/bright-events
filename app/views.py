@@ -47,26 +47,26 @@ events = [
 
 #Function to create a new user
 @app.route('/brightEvents/api/v1/auth/register', methods=['GET','POST'])
-def create_users( self, fname, lname, uname, email, pwd):
-    if not request.json or not 'uname' in request.json:
+def create_users():
+    if not 'uname' in request.form['uname']:
         flash('Registration unsuccessful')
         return render_template('user_registration.html')
-    else:
-        user = {
+    user = {
         'fname': request.form['fname'],
         'lname': request.form['lname'],
         'uname': request.form['uname'],
         'email': request.form['email'],
         'pwd': request.form['pwd']
     }
-        users.append(user)
-        flash('Thanks for signing up please login')
-        return render_template('user_login.html')
+    users.append(user)
+    flash('Thanks for signing up please login')
+    #return render_template('user_login.html')
+    return jsonify(users)
    
         
 
 
-#Function to get the user login details and user login if they are correct
+#Function to get the user login details and user login form if they are correct
 @app.route('/brightEvents/api/v1/auth/login', methods=['GET','POST'])
 #@auth.login_required
 @auth.get_password
@@ -83,7 +83,6 @@ def getLoginDetails():
 @app.route('/')
 def home():
     if not session.get('logged_in'):
-        flash('You need to log in to proceed')
         return render_template('user_login.html')
     else:
         return render_template('index.html')  
@@ -111,7 +110,7 @@ def user_logout():
 #Functions to create new events
 @app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
-    if not 'eventName'in request.form['eventName'] or not 'location'in request.form['location'] :
+    if not 'eventName' or not 'location' :
         message = Markup("All fields must be filled")
         flash(message)
         return render_template('index.html'), 400

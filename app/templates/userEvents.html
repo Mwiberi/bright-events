@@ -23,6 +23,11 @@
                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
           <input id="search" type="search" placeholder="search events">
         </div>
+        <div class="#ff3d00 deep-orange accent-3">
+  {% for message in get_flashed_messages() %}
+    {{ message|safe }}
+  {% endfor %}
+</div>
                 
 	<!--A table to display the events in a tabular manner-->   
 

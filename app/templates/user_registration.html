@@ -15,16 +15,16 @@
     <body>
         <div class="container valign center">
             <div class="column">
-            <form action="user_login.html">
+            <form action="/brightEvents/api/v1/auth/register" method="POST">
         <div class='card-panel teal lighten-2'><h4>Enter Your Registration Details</h4>
         </div>
                 
-	First Name<input type="text" name = fname placeholder="Susan">
-	Last Name<input type="text" name = lname placeholder="Smith">
-	User Name<input type="text" name = uname placeholder="Sue">
-	Email Address<input type="email" name = email placeholder="sue@outlook.com">
-	Password<input type="password" name = pwd placeholder="........">
-	Confirm Password<input type="password" name = pwd placeholder="........">
+	First Name<input type="text" name = 'fname' placeholder="Susan">
+	Last Name<input type="text" name = 'lname' placeholder="Smith">
+	User Name<input type="text" name = 'uname' placeholder="Sue">
+	Email Address<input type="email" name = 'email'' placeholder="sue@outlook.com">
+	Password<input type="password" name = 'pwd' placeholder="........">
+	Confirm Password<input type="password" name = 'cpwd' placeholder="........">
 
     <button class="btn waves-effect waves-light" type="submit" name="submit">Register
     <i class="material-icons right">send</i>
