@@ -57,12 +57,12 @@ def create_users():
 
         user = {
             'userID': users[-1]['userID'] + 1,
-            'fname': request.form['fname'],
-            'lname': request.form['lname'],
-            'uname': request.form['uname'],
-            'email': request.form['email'],
-            'pwd': request.form['pwd'],
-            'cpwd': request.form['cpwd']
+            'fname': request.form.get('fname'),
+            'lname': request.form.get('lname'),
+            'uname': request.form.get('uname'),
+            'email': request.form.get('email'),
+            'pwd': request.form.get('pwd'),
+            'cpwd': request.form.get('cpwd')
     }
         users.append(user)
         flash('Thanks for signing up please login')
