@@ -11,11 +11,7 @@ class Event(object):
         self.event_details={}
         
 
-    def create_event(self,name, eventID,location,date):
-        self.name = name
-        self.eventID =eventID
-        self.location =location
-        self.date =date
+    def create_event(self):
         
         if type(name) or type(location) !=str:
             return "Invalid input. Enter character elements"
@@ -24,13 +20,20 @@ class Event(object):
             #store details in a dictionary
             self.eventDetails={'Event Name':name,'Event ID':eventID,'Location':location,'Date':date}
     def update_event(self, eventID):
-        pass
+        if type(eventID)!= int:
+            return 'Invalid event ID. Event ID should be a number'
+        
     def delete_event(self, eventID):
-        pass
+        if type(eventID)!= int:
+            return 'Invalid event ID. Event ID should be a number'
+        
     def retrieve_event(self, eventID):
-        pass
+        if type(eventID)!= int:
+            return 'Invalid event ID. Event ID should be a number'
     def RSVP_event(self, eventID):
-        pass
+        if type(eventID)!= int:
+            return 'Invalid event ID. Event ID should be a number'
 
     def view_eventGuests(self, eventID):
-        pass
+        if type(eventID)!= int:
+            return 'Invalid event ID. Event ID should be a number'

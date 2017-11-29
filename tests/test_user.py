@@ -1,7 +1,7 @@
 import unittest
 
-from users import user
-from users import login
+from users import User
+from users import Login
 
 class userRegistrationDetailsTestCase(unittest.TestCase):
     def setUp(self):

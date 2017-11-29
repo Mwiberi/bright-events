@@ -29,11 +29,11 @@ class User(object):
         else:
             return "Kindly fill out all the form fields"
   
-class login(user):
-    details=user.details
+class Login(User):
+    details=User.users
     
     def __init__(self):
-        user.__init__(self)
+        User.__init__(self)
     def login_user(self, uname, pwd):
         self.uname =uname
         self.pwd = pwd
