@@ -38,7 +38,7 @@ class Login(User):
         self.uname =uname
         self.pwd = pwd
         if not uname and pwd:
-            return"Kindly fill out all the form fields"
+            return "Kindly fill out all the form fields"
         for detail in details:
             newUname= name.get('Username')
             newPwd = name.get('pwd')
