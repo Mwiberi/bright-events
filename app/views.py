@@ -48,6 +48,14 @@ events = [
 
     }
 ]
+guests=[{
+    'uname':'John'
+    'email':'Smiles'
+    'userID':77
+
+}
+
+]
 #/////////////////////////USER SIDE////////////////////////////
 
 #Function to create a new user
@@ -194,10 +202,25 @@ def delete_event(eventID):
 
 
 #Function to rsvp to an event
-@app.route('/brightEvents/api/v1/events/<int:eventID>/rsvp', methods=['POST'])
-def send_reply():
+@app.route('/brightEvents/api/v1/events/<int:eventID>/rsvp', methods=['GET','POST'])
+def rsvp():
+    if session['logged_in'] == True
+    uname=session['uname']
+    user = [user for user in users if user['uname'] == uname]
+    if len(user) == 0:
+        abort(404)
+    guest={
+        'uname' :user.uname,
+        'email' :user.email,
+        'userID':user.userID
+        }
+        guests.append(guest)
+        return 'You have sent your rsvp'
+        return render_template('events.html', result=events)
+    return render_template('rsvp.html')
     
-    pass
+
+   
 
 
 
