@@ -66,8 +66,8 @@ def create_users():
     }
         users.append(user)
         flash('Thanks for signing up please login')
-        #return render_template('user_login.html')
-        return jsonify(users)
+        return render_template('user_login.html')
+        #return jsonify(users)
     return render_template('user_registration.html')
    
         
