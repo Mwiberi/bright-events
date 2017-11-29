@@ -8,18 +8,22 @@ auth=HTTPBasicAuth()
 
 
 
+
 app = Flask(__name__)
 app.secret_key = "superdooper1"
 users = [
     {
+        'userID': 1,
         'fname': 'sue',
         'lname': 'smith',
         'uname': 'sue', 
         'email': 'sue@outlook.com',
-        'pwd': 'sue'
+        'pwd': 'sue',
+        'cpwd' :'sue'
 
     },
     {
+        'userID': 2,
         'fname': 'sam',
         'lname': 'smith',
         'uname': 'sam', 
@@ -44,24 +48,27 @@ events = [
 
     }
 ]
+#/////////////////////////USER SIDE////////////////////////////
 
 #Function to create a new user
-@app.route('/brightEvents/api/v1/auth/register', methods=['GET','POST'])
+@app.route('/brightEvents/api/v1/auth/register', methods=['GET', 'POST'])
 def create_users():
-    if not 'uname' in request.form['uname']:
-        flash('Registration unsuccessful')
-        return render_template('user_registration.html')
-    user = {
-        'fname': request.form['fname'],
-        'lname': request.form['lname'],
-        'uname': request.form['uname'],
-        'email': request.form['email'],
-        'pwd': request.form['pwd']
+    if request.method == 'POST':
+
+        user = {
+            'userID': users[-1]['userID'] + 1,
+            'fname': request.form['fname'],
+            'lname': request.form['lname'],
+            'uname': request.form['uname'],
+            'email': request.form['email'],
+            'pwd': request.form['pwd'],
+            'cpwd': request.form['cpwd']
     }
-    users.append(user)
-    flash('Thanks for signing up please login')
-    #return render_template('user_login.html')
-    return jsonify(users)
+        users.append(user)
+        flash('Thanks for signing up please login')
+        #return render_template('user_login.html')
+        return jsonify(users)
+    return render_template('user_registration.html')
    
         
 
@@ -71,15 +78,17 @@ def create_users():
 #@auth.login_required
 @auth.get_password
 def getLoginDetails():
-    user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
-    if len(user) >= 1:
-        session['logged_in'] = True
-    else:
-        flash('Wrong username or password')
-    return home()
+    if request.method == 'POST':
+        user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
+        if len(user) >= 1:
+            session['logged_in'] = True
+        else:
+            flash('Wrong username or password')
+        return home()
+    return render_template('user_login.html')
 
 
-#Function to login the user
+#Function to access the home page
 @app.route('/')
 def home():
     if not session.get('logged_in'):
@@ -110,28 +119,29 @@ def user_logout():
 #Functions to create new events
 @app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
-    if not 'eventName' or not 'location' :
-        message = Markup("All fields must be filled")
-        flash(message)
-        return render_template('index.html'), 400
+    if request.method == 'POST':
+        if not 'eventName':
+            message = Markup("All fields must be filled")
+            flash(message)
+            return render_template('index.html'), 400
    
-    event = {
-        'eventID': events[-1]['eventID'] + 1,
-        'eventName': request.form['eventName'],
-        'location': request.form['location'],
-        'date': request.form['date']
-    }
-    events.append(event)
-    flash('Event added successfully')
-    return render_template('userEvents.html', result=events)
-    #return jsonify(events), 201
-#creating a much better error 400 response
-@app.errorhandler(400)
-def not_found(error):
-    return make_response(jsonify({'Error': 'All fields must be field'}), 404)
+        event = {
+            'eventID': events[-1]['eventID'] + 1,
+            'eventName': request.form['eventName'],
+            'location': request.form['location'],
+            'date': request.form['date']
+        }
+        events.append(event)
+        flash('Event added successfully')
+        return render_template('userEvents.html', result=events)
+        #return jsonify(events), 201 -----would apply if the api was not connected to the templates
+    return get_allEvents()
+
+
+
 
 #Function to get all the events
-@app.route('/brightEvents/api/v1/events', methods=['GET'])
+@app.route('/brightEvents/api/v1/events',methods=['GET'])
 def get_allEvents():
     return render_template('userEvents.html', result= events) 
     #return jsonify(events), 201 --. would apply if the api was not connected to the templates

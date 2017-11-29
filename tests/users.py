@@ -1,4 +1,4 @@
-class user(object):
+class User(object):
     #details list will be used to store a list of dictionaries for user accounts
     details=[]
     def __init__(self,fname, lname,uname,email,pwd):
@@ -10,7 +10,7 @@ class user(object):
 
         
 
-    def add_user(self,fname, lname,uname,email,pwd):
+    def create_user(self,fname, lname,uname,email,pwd):
         self.fname = fname
         self.lname =lname
         self.uname =uname

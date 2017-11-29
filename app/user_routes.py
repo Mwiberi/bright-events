@@ -17,7 +17,8 @@ users = [
         'lname': 'smith',
         'uname': 'sue', 
         'email': 'sue@outlook.com',
-        'pwd': 'sue'
+        'pwd': 'sue',
+        'cpwd':'sue'
 
     },
     {
@@ -25,27 +26,30 @@ users = [
         'lname': 'smith',
         'uname': 'sam', 
         'email': 'sam@outlook.com',
-        'pwd': 'sam'
+        'pwd': 'sam',
+        'cpwd':'sam'
     }
 ]
 class user(object):
 #Function to create a new user
     @app.route('/brightEvents/api/v1/auth/register', methods=['GET','POST'])
-    def create_users( self, fname, lname, uname, email, pwd):
-        if not request.json or not 'uname' in request.json:
+    def create_users():
+        if not 'uname' in request.form['uname']:
             flash('Registration unsuccessful')
-            return render_template('user_registration.html')
-        else:
-            user = {
+            #return render_template('user_registration.html')
+            return jsonify(users)
+        
+        user = {
         'fname': request.form['fname'],
         'lname': request.form['lname'],
         'uname': request.form['uname'],
         'email': request.form['email'],
-        'pwd': request.form['pwd']
+        'pwd': request.form['pwd'],
+        'cpwd':request.form['cpwd']
     }
-            users.append(user)
-            flash('Thanks for signing up please login')
-            return render_template('user_login.html')
+        users.append(user)
+        flash('Thanks for signing up please login')
+        return render_template('user_login.html')
    
         
 
