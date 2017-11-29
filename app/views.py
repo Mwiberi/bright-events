@@ -92,7 +92,7 @@ def getLoginDetails():
 @app.route('/')
 def home():
     if not session.get('logged_in'):
-        return render_template('user_login.html')
+        return render_template('events.html', result=events)
     else:
         return render_template('index.html')  
              
