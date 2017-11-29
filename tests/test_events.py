@@ -1,6 +1,6 @@
 import unittest
 
-from events import event
+from events import Event
 
 class eventsCreation(unittest.TestCase):
     def setUp(self):

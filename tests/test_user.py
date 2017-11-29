@@ -14,13 +14,13 @@ class userRegistrationDetailsTestCase(unittest.TestCase):
         result=self.myUser.create_user("", "","" , "", "")
         self.assertEquals("Kindly fill out all the form fields", result)
     def test_lengthPasswordLessThanEightCharacters(self):
-        result=self.myUser.create_user("sue", "smith","sue" , "sue@oulookcom", "vg")
+        result=self.myUser.create_user("sue", "smith","sue" , "sue@outlookcom", "vg")
         self.assertEquals("Password length too small", result)
 
 #class for checking the user details on the login page
 class userLoginTestCase(unittest.TestCase):
     def setUp(self):
-        self.myUser=login()
+        self.myUser=Login()
     def test_loginDetailIfTheyExist(self):
         result=self.myUser.login_user("", "joe")
         self.assertEquals("Kindly fill out all the form fields", result)
