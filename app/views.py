@@ -91,9 +91,10 @@ def getLoginDetails():
         user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
         if len(user) >= 1:
             session['logged_in'] = True
+            return home()
         else:
             flash('Wrong username or password')
-        return home()
+        return render_template('user_login.html')
     return render_template('user_login.html')
 
 
@@ -134,7 +135,10 @@ def create_events():
             flash(message)
             return render_template('index.html'), 400
    
-        event = {
+      
+        
+        
+        event={
             'eventID': events[-1]['eventID'] + 1,
             'eventName': request.form['eventName'],
             'location': request.form['location'],
