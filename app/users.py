@@ -1,6 +1,28 @@
+import re
+
+
 class User(object):
     #details list will be used to store a list of dictionaries for user accounts
-    users=[]
+    users = [
+    {
+        'userID': 1,
+        'fname': 'sue',
+        'lname': 'smith',
+        'uname': 'sue', 
+        'email': 'sue@outlook.com',
+        'pwd': 'sue',
+        'cpwd' :'sue'
+
+    },
+    {
+        'userID': 2,
+        'fname': 'sam',
+        'lname': 'smith',
+        'uname': 'sam', 
+        'email': 'sam@outlook.com',
+        'pwd': 'sam'
+    }
+]
     def __init__(self,fname, lname,uname,email,pwd):
         self.fname = fname
         self.lname =lname
@@ -22,6 +44,8 @@ class User(object):
             
             elif len(pwd) <= 7:
                 return("Password length too small")
+            elif re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) == None:
+                return "Enter a valid email address"
             else:
                  #store details in a dictionary
                 self.details.append=({'Firstname':fname,'Lastname':lname,'Username':uname,'Email':email, 'Password':pwd})

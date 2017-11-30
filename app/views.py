@@ -2,6 +2,8 @@
 from flask import Flask, jsonify 
 from flask import Flask, flash, redirect, render_template, request, session, abort, make_response, Markup 
 from flask_httpauth import HTTPBasicAuth
+from users import User
+import re
 
 #create an object of HTTPBasicAuth
 auth=HTTPBasicAuth()
@@ -31,6 +33,7 @@ users = [
         'pwd': 'sam'
     }
 ]
+
 
 events = [
     {
@@ -63,20 +66,42 @@ guests=[{
 @app.route('/brightEvents/api/v1/auth/register', methods=['GET', 'POST'])
 def create_users():
     if request.method == 'POST':
+        fname=request.form.get('fname')
+        lname=request.form.get('lname')
+        uname=request.form.get('uname')
+        email=request.form.get('email')
+        pwd=request.form.get('pwd')
+        cpwd=request.form.get('cpwd')
+        #checking if there's any empty fields
+        if not fname or not lname or not uname or not email or not pwd :
+            flash("All form fields must be filled ")
+            return render_template('user_registration.html')
+        #elif not re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email):
+                #flash("Enter a valid email address") 
+        elif len(pwd) <= 7 or len(cpwd) <= 7 :
+                flash("Password length too small. Enter at least 8 characters")
+                return render_template('user_registration.html')
+        elif pwd!=cpwd:
+            flash("Passwords don't match!")
+            return render_template('user_registration.html')
+
+        
+
+       # user=User(fname, lname, uname, email, pwd)
 
         user = {
             'userID': users[-1]['userID'] + 1,
-            'fname': request.form.get('fname'),
-            'lname': request.form.get('lname'),
-            'uname': request.form.get('uname'),
-            'email': request.form.get('email'),
-            'pwd': request.form.get('pwd'),
-            'cpwd': request.form.get('cpwd')
+            'fname': fname,
+            'lname': lname,
+            'uname': uname,
+            'email': email,
+            'pwd': pwd,
+            
     }
         users.append(user)
         flash('Thanks for signing up please login')
         return render_template('user_login.html')
-        #return jsonify(users)
+        #return jsonify(users), 201
     return render_template('user_registration.html')
    
         
