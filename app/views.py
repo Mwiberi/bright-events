@@ -155,19 +155,20 @@ def user_logout():
 @app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
     if request.method == 'POST':
-        if not 'eventName':
+        eventName = request.form['eventName']
+        location= request.form['location']
+        date = request.form['date']
+        if not eventName or not location or not date:
             message = Markup("All fields must be filled")
             flash(message)
             return render_template('index.html'), 400
-   
-      
         
         
         event={
             'eventID': events[-1]['eventID'] + 1,
-            'eventName': request.form['eventName'],
-            'location': request.form['location'],
-            'date': request.form['date']
+            'eventName':eventName ,
+            'location':location ,
+            'date': date
         }
         events.append(event)
         flash('Event added successfully')
@@ -208,27 +209,34 @@ def update_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
-    if not request.json:
-        abort(400)
-    if 'eventName' in request.json and type(request.json['eventName']) != unicode:
-        abort(400)
-    if 'location' in request.json and type(request.json['location']) is not unicode:
-        abort(400)
+    #if type(request.form['eventName']) is not str:
+        #abort(400)
+    #if type(request.form['location']) is not str:
+        #abort(400)
     
-    event[0]['eventName'] = request.json.get('eventName', event[0]['eventName'])
-    event[0]['location'] = request.json.get('location', event[0]['location'])
-    event[0]['date'] = request.json.get('date', event[0]['date'])
-    return jsonify({'event': event[0]})
+    event[0]['eventName'] = request.form.get('eventName', event[0]['eventName'])
+    event[0]['location'] = request.form.get('location', event[0]['location'])
+    event[0]['date'] = request.form.get('date', event[0]['date'])
+    #return jsonify({'event': event[0]})
+    return jsonify(events)
 
+
+
+#creating a much better error 400 response
+@app.errorhandler(400)
+def bad_request(error):
+    return make_response(jsonify({'Error': 'Details entered are incorrect'}), 400)
 
 #Function to delete an event based on the ID
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['DELETE'])
 def delete_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
-        abort(404)
+        #abort(404)
+        return jsonify({'message': 'Event specified does not exist'}), 404
     event.remove(event[0])
-    return jsonify({'result': True})
+    #return jsonify({'result': True})
+    return jsonify(events)
 
 
 #Function to rsvp to an event
@@ -240,35 +248,41 @@ def rsvp(eventID):
             user = [user for user in users if user['uname'] == uname]
             if len(user) == 0:
                 abort(404)
+            for i in user:
+                eventID=event['eventID']
+                uname=user['uname']
+                email=user['email']
+                userID=user['userID']
             guest={
                 'eventID':eventID,
-                'uname' :user.uname,
-                'email' :user.email,
-                'userID':user.userID
+                'uname' :uname,
+                'email' :email,
+                'userID':userID
             }
             guests.append(guest)
             return 'You have sent your rsvp'
             return render_template('events.html', result=events)
         else:
+            eventID=event['eventID']
+            uname=request.form['uname']
+            email=request.form['email']
+            
             guest={
                 'eventID':eventID,
-                'uname' :request.form['uname'],
-                'email' :request.form['email'],
+                'uname' :uname,
+                'email' :email,
                 'userID':users[-1]['userID'] + 1
             }
             guests.append(guest)
             return 'You have sent your rsvp'
-            return render_template('events.html', result=events)
+            return jsonify(guests)
+            #return render_template('events.html', result=events)
     ###GET##
     else:
         return render_template('rsvp.html')
     
 
    
-
-
-
-
     # The main method
 if __name__ == '__main__':
     app.run(debug=True)
