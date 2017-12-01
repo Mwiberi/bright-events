@@ -51,6 +51,9 @@
             <form>
                 <div><h4 class="center-align">Events Available</h4></div>
                 <div class="#ff3d00 deep-orange accent-3">
+                  {% for message in get_flashed_messages() %}
+                  {{ message|safe }}
+                  {% endfor %}
                 </div>
                 
 	<!--A table to display the events in a tabular manner-->   
