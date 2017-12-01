@@ -148,6 +148,12 @@ def user_logout():
     return home()
 
 
+#The Reset Password Function
+@app.route('/brightEvents/api/v1/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    if
+
+
 
     #////////////////////EVENTS SIDE/////////////////////////////////
     
