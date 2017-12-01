@@ -272,17 +272,19 @@ def delete_event(eventID):
 #Function to rsvp to an event
 @app.route('/brightEvents/api/v1/events/<int:eventID>/rsvp', methods=['GET','POST'])
 def rsvp(eventID):
+    event=[event for event in events if event['eventID'] == eventID]
+    if len(event) == 0:
+        abort(404)
     if request.method == 'POST':
-        if session['logged_in'] == True:
+        if 'uname' in session:
             uname=session['uname']
             user = [user for user in users if user['uname'] == uname]
             if len(user) == 0:
                 abort(404)
-            for i in user:
-                eventID=event['eventID']
-                uname=user['uname']
-                email=user['email']
-                userID=user['userID']
+            eventID=event[0]['eventID']
+            uname=user['uname']
+            email=user['email']
+            userID=user[0]['userID']
             guest={
                 'eventID':eventID,
                 'uname' :uname,
@@ -292,24 +294,28 @@ def rsvp(eventID):
             guests.append(guest)
             return 'You have sent your rsvp'
             return render_template('events.html', event = event)
-        else:
-            eventID=event['eventID']
-            uname=request.form['uname']
-            email=request.form['email']
             
-            guest={
-                'eventID':eventID,
-                'uname' :uname,
-                'email' :email,
-                'userID':users[-1]['userID'] + 1
+        eventID=event[0]['eventID']
+        uname=request.form['uname']
+        email=request.form['email']
+        if not uname or not email:
+            flash('All fields must be filled in')
+        if type(uname) != str:
+            flash('username must have character elements')
+            
+        guest={
+            'eventID':eventID,
+            'uname' :uname,
+            'email' :email,
+            'userID':users[-1]['userID'] + 1
             }
-            guests.append(guest)
-            return 'You have sent your rsvp'
-            return jsonify(guests)
+        guests.append(guest)
+        flash('You have sent your rsvp')
+        return jsonify(guests)
             #return render_template('events.html', result=events)
     ###GET##
-    else:
-        return render_template('rsvp.html',eventID = eventID)
+    
+    return render_template('rsvp.html',eventID = eventID)
     
 
    
