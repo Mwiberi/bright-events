@@ -163,7 +163,7 @@ def reset_password():
         elif not opwd or not npwd or not cpwd:
             flash('All fields must be filled in')
             return render_template('reset_password.html')
-        elif len(npwd) < 8:
+        elif len(npwd) <= 7:
             flash('Password too short!Enter at least 8 characters')
             return render_template('reset_password.html')
         elif npwd != cpwd:
