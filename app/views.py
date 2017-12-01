@@ -222,10 +222,10 @@ def get_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
-    results=[]
-    results.append(event)
+    #results=[]
+    #results.append(event)
     #return jsonify(results)
-    return render_template('userEvents.html', result=results)
+    return render_template('userEvents.html', result=event)
 
 #creating a much better error 404 response
 @app.errorhandler(404)
@@ -261,7 +261,7 @@ def bad_request(error):
 def delete_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
-        #abort(404)
+        abort(404)
         return jsonify({'message': 'Event specified does not exist'}), 404
     event.remove(event[0])
     #return jsonify({'result': True})
@@ -269,7 +269,7 @@ def delete_event(eventID):
 
 
 #Function to rsvp to an event
-@app.route('/brightEvents/api/v1/events/<int:eventID>/rsvp', methods=['GET','POST'])
+@app.route('/brightEvents/api/v1/events/{0}/rsvp'.format(eventID), methods=['GET','POST'])
 def rsvp(eventID):
     if request.method == 'POST':
         if session['logged_in'] == True:
@@ -308,7 +308,7 @@ def rsvp(eventID):
             #return render_template('events.html', result=events)
     ###GET##
     else:
-        return render_template('rsvp.html')
+        return render_template('rsvp.html', eventID)
     
 
    
