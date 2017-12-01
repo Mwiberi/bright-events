@@ -56,11 +56,11 @@ class User(object):
     def login_user(self, uname, pwd):
         if not uname and pwd:
             return "Kindly fill out all the form fields"
-       user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
-            if len(user)>0:
-                session['logged_in'] = True
-            else:
-                return 'Wrong username or password'
+        user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
+        if len(user)>0:
+            session['logged_in'] = True
+        else:
+            return 'Wrong username or password'
 
               
             

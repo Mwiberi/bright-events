@@ -149,9 +149,32 @@ def user_logout():
 
 
 #The Reset Password Function
-@app.route('/brightEvents/api/v1/reset-password', methods=['GET', 'POST'])
+@app.route('/brightEvents/api/v1/auth/reset_password', methods=['GET', 'POST'])
 def reset_password():
-    if
+    if request.method == 'POST':
+        opwd = request.form['opwd']
+        npwd = request.form['npwd']
+        cpwd = request.form['cpwd']
+
+        user = [user for user in users if user['pwd'] == opwd]
+        if len(user) == 0:
+            flash('Old Password Incorrect')
+            return render_template('reset_password.html')
+        elif not opwd or not npwd or not cpwd:
+            flash('All fields must be filled in')
+            return render_template('reset_password.html')
+        elif len(npwd) < 8:
+            flash('Password too short!Enter at least 8 characters')
+            return render_template('reset_password.html')
+        elif npwd != cpwd:
+            flash('Passwords must match')
+            return render_template('reset_password.html')
+        user[0]['pwd'] = request.form.get('npwd', user[0]['pwd'])
+        return jsonify({'user': user[0]})
+#///GET///    
+    return render_template('reset_password.html')
+
+    
 
 
 
