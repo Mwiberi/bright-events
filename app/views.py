@@ -171,6 +171,7 @@ def reset_password():
             return render_template('reset_password.html')
         user[0]['pwd'] = request.form.get('npwd', user[0]['pwd'])
         return jsonify({'user': user[0]})
+        flash('Password successfully changed')
 #///GET///    
     return render_template('reset_password.html')
 
@@ -269,7 +270,7 @@ def delete_event(eventID):
 
 
 #Function to rsvp to an event
-@app.route('/brightEvents/api/v1/events/{0}/rsvp'.format(eventID), methods=['GET','POST'])
+@app.route('/brightEvents/api/v1/events/<int:eventID>/rsvp', methods=['GET','POST'])
 def rsvp(eventID):
     if request.method == 'POST':
         if session['logged_in'] == True:
@@ -290,7 +291,7 @@ def rsvp(eventID):
             }
             guests.append(guest)
             return 'You have sent your rsvp'
-            return render_template('events.html', result=events)
+            return render_template('events.html', result=event)
         else:
             eventID=event['eventID']
             uname=request.form['uname']

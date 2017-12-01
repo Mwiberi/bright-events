@@ -69,6 +69,8 @@ class User(object):
         return "successfully logged out"
 
 class Event(object):
+    #dummy data for events
+    #Also where the events created will be stored 
     events[
         {
         'eventName': 'Coke studio Africa',
