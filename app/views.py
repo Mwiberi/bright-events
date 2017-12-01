@@ -291,7 +291,7 @@ def rsvp(eventID):
             }
             guests.append(guest)
             return 'You have sent your rsvp'
-            return render_template('events.html', result=event)
+            return render_template('events.html', event = event)
         else:
             eventID=event['eventID']
             uname=request.form['uname']
@@ -309,7 +309,7 @@ def rsvp(eventID):
             #return render_template('events.html', result=events)
     ###GET##
     else:
-        return render_template('rsvp.html', eventID)
+        return render_template('rsvp.html',eventID = eventID)
     
 
    

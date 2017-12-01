@@ -75,7 +75,7 @@
             <td>{{ event.eventName }}</td>
             <td>{{ event.location }}</td>
             <td>{{ event.date }}</td>
-            <td><a href='/brightEvents/api/v1/events/<int:eventID>/rsvp' , methods=['POST']>RSVP</td>
+            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}/rsvp' , methods=['POST']>RSVP</td>
             
             
           </tr>
