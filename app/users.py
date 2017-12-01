@@ -2,7 +2,7 @@ import re
 
 
 class User(object):
-    #details list will be used to store a list of dictionaries for user accounts
+    #users list will be used to store a list of dictionaries for user accounts
     users = [
     {
         'userID': 1,
@@ -23,21 +23,18 @@ class User(object):
         'pwd': 'sam'
     }
 ]
-    def __init__(self,fname, lname,uname,email,pwd):
+    def __init__(self,fname, lname,uname,email,pwd, cpwd):
         self.fname = fname
         self.lname =lname
         self.uname =uname
         self.email =email
         self.pwd = pwd
+        self.cpwd= cpwd
 
         
 
     def create_user(self,fname, lname,uname,email,pwd):
-        self.fname = fname
-        self.lname =lname
-        self.uname =uname
-        self.email =email
-        self.pwd = pwd
+        
         if fname and lname and uname and email and pwd:
             if type(fname) or type(name) or type(uname) !=str:
                 return "Invalid input. Enter character elements"
@@ -46,44 +43,28 @@ class User(object):
                 return("Password length too small")
             elif re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) == None:
                 return "Enter a valid email address"
+            elif pwd!=cpwd:
+                return('Passwords must match')
             else:
                  #store details in a dictionary
-                self.details.append=({'Firstname':fname,'Lastname':lname,'Username':uname,'Email':email, 'Password':pwd})
+                self.users.append=({'fname':fname,'lname':lname,'uname':uname,'email':email, 'pwd':pwd})
             
         else:
             return "Kindly fill out all the form fields"
+
   
-class Login(User):
-    details=User.users
-    
-    def __init__(self):
-        User.__init__(self)
     def login_user(self, uname, pwd):
-        self.uname =uname
-        self.pwd = pwd
         if not uname and pwd:
             return "Kindly fill out all the form fields"
-        for detail in details:
-            newUname= name.get('Username')
-            newPwd = name.get('pwd')
-            if newUname and newPwd:
-                return "login successful"
+       user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
+            if len(user)>0:
+                session['logged_in'] = True
             else:
-                return "username or Password incorrect"
+                return 'Wrong username or password'
+
+              
             
-    def logout_user(self, uname):
-        self.uname =uname
-        session.delete()
+    def user_logout():
+        session['logged_in'] = True 
         return "successfully logged out"
-def login(self, email, password):
-    return self.app.post(
-        '/login',
-        data=dict(email=email, password=password),
-        follow_redirects=True
-    )
- 
-def logout(self):
-    return self.app.get(
-        '/logout',
-        follow_redirects=True
-    )
+
