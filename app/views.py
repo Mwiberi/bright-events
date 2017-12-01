@@ -116,7 +116,8 @@ def getLoginDetails():
         user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
         if len(user) >= 1:
             session['logged_in'] = True
-            return home()
+            session['uname'] = request.form['uname']
+            return render_template('index.html', result=session['uname'])
         else:
             flash('Wrong username or password')
         return render_template('user_login.html')
@@ -188,6 +189,7 @@ def create_events():
         eventName = request.form['eventName']
         location= request.form['location']
         date = request.form['date']
+        userID=session['userID']
         if not eventName or not location or not date:
             message = Markup("All fields must be filled")
             flash(message)
@@ -198,7 +200,8 @@ def create_events():
             'eventID': events[-1]['eventID'] + 1,
             'eventName':eventName ,
             'location':location ,
-            'date': date
+            'date': date,
+            'userID':userID
         }
         events.append(event)
         flash('Event added successfully')
@@ -215,7 +218,7 @@ def get_allEvents():
     return render_template('userEvents.html', result= events) 
     #return jsonify(events), 201 --. would apply if the api was not connected to the templates
 
-    
+  
 
 # Function to the get event based on the ID
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['GET'])
@@ -285,20 +288,25 @@ def rsvp(eventID):
             uname=user['uname']
             email=user['email']
             userID=user[0]['userID']
+            reply=request.form('reply')
             guest={
                 'eventID':eventID,
                 'uname' :uname,
                 'email' :email,
-                'userID':userID
+                'userID':userID,
+                'reply' :reply
+
             }
             guests.append(guest)
             return 'You have sent your rsvp'
-            return render_template('events.html', event = event)
+            return jsonify(guests)
+            #return render_template('events.html', event = event)
             
         eventID=event[0]['eventID']
         uname=request.form['uname']
         email=request.form['email']
-        if not uname or not email:
+        reply=request.form['reply']
+        if not uname or not email or not reply:
             flash('All fields must be filled in')
         if type(uname) != str:
             flash('username must have character elements')
@@ -307,7 +315,8 @@ def rsvp(eventID):
             'eventID':eventID,
             'uname' :uname,
             'email' :email,
-            'userID':users[-1]['userID'] + 1
+            'userID':users[-1]['userID'] + 1,
+            'reply' :reply
             }
         guests.append(guest)
         flash('You have sent your rsvp')

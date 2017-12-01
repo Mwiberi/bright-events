@@ -31,10 +31,11 @@
       <ul class="right hide-on-med-and-down">
            {% block body %}
 {% if session['logged_in'] %}
-<li><p>Hey, Welcome!</p></li>
+<li><p>Hey{{session['uname']}}, Welcome!</p></li>
         
-        
-        <li><a href='/static/rsvp.html'>View all Events</a></li>
+       {%for event in result%} 
+        <li><a href='/brightEvents/api/v1/events/{{event['eventID']}}/rsvp'>View all Events</a></li>
+        {% endfor%}
         <li><a href='/brightEvents/api/v1/events'>View your Events</a></li>
         <li><a href='/brightEvents/api/v1/auth/reset_password'>Reset Password</a>
         <li><a href='/brightEvents/api/v1/auth/logout'>Logout</a>
