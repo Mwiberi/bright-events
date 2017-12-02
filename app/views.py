@@ -315,7 +315,7 @@ def rsvp(eventID):
             flash('All fields must be filled in')
             return render_template('rsvp.html',eventID = eventID)
         elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
-            return("Enter a valid email address")
+            flash("Enter a valid email address")
             return render_template('rsvp.html',eventID = eventID)
         guest={
             'eventID':eventID,
