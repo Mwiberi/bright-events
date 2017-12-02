@@ -269,7 +269,7 @@ def delete_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
-        return jsonify({'message': 'Event specified does not exist'}), 404
+        return jsonify({'Message': 'Event specified does not exist'}), 404
     event.remove(event[0])
     #return jsonify({'result': True})
     return jsonify(events)
@@ -313,8 +313,12 @@ def rsvp(eventID):
         if not uname or not email or not reply:
             flash('All fields must be filled in')
             return render_template('rsvp.html',eventID = eventID)
-        if type(uname) == int:
-            flash('username must have character elements')
+        elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
+            flash("Enter a valid email address")
+            return render_template('rsvp.html',eventID = eventID)
+        
+        elif type(uname) or type(reply) == int:
+            flash('Username and reply must have character elements')
             return render_template('rsvp.html',eventID = eventID)
         guest={
             'eventID':eventID,

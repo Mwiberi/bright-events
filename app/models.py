@@ -85,13 +85,15 @@ class Event(object):
         
 
     def create_event(self, eventName, location, date):
+        if type(eventName) or type(location)  or type (date) == int:
+            return("Invalid input. Enter character elements")
         
         if not eventName or not location or not date:
-            return "All fields must be filled in"
+            return("All fields must be filled in")
+
         if eventName and location and date:
-            
             #store details in a dictionary
-            self.eventDetails={'Event Name':name,'Event ID':events[-1]['eventID'] + 1,,'Location':location,'Date':date}
+            self.events={'Event Name':eventName,'Event ID':self.events[-1]['eventID'] + 1,'Location':location,'Date':date}
     def update_event(self, eventID):
         if type(eventID)!= int:
             return 'Invalid event ID. Event ID should be a number'
