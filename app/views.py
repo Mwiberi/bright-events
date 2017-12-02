@@ -76,8 +76,9 @@ def create_users():
         if not fname or not lname or not uname or not email or not pwd :
             flash("All form fields must be filled ")
             return render_template('user_registration.html')
-        #elif not re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email):
-                #flash("Enter a valid email address") 
+        elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
+            return("Enter a valid email address")
+            return render_template('user_registration.html')
         elif len(pwd) <= 7 or len(cpwd) <= 7 :
                 flash("Password length too small. Enter at least 8 characters")
                 return render_template('user_registration.html')
@@ -313,7 +314,9 @@ def rsvp(eventID):
         if not uname or not email or not reply:
             flash('All fields must be filled in')
             return render_template('rsvp.html',eventID = eventID)
-        
+        elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
+            return("Enter a valid email address")
+            return render_template('rsvp.html',eventID = eventID)
         guest={
             'eventID':eventID,
             'eventName':eventName,
