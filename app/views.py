@@ -75,16 +75,16 @@ def create_users():
         #checking if there's any empty fields
         if not fname or not lname or not uname or not email or not pwd :
             flash("All form fields must be filled ")
-            return render_template('user_registration.html')
+            return render_template('user_registration.html'), 400
         elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
-            return("Enter a valid email address")
-            return render_template('user_registration.html')
+            flash("Enter a valid email address")
+            return render_template('user_registration.html'), 400
         elif len(pwd) <= 7 or len(cpwd) <= 7 :
                 flash("Password length too small. Enter at least 8 characters")
-                return render_template('user_registration.html')
+                return render_template('user_registration.html'), 400
         elif pwd!=cpwd:
             flash("Passwords don't match!")
-            return render_template('user_registration.html')
+            return render_template('user_registration.html'), 400
 
         
 
@@ -101,7 +101,7 @@ def create_users():
     }
         users.append(user)
         flash('Thanks for signing up please login')
-        return render_template('user_login.html')
+        return render_template('user_login.html'), 200
         #return jsonify(users), 201
     return render_template('user_registration.html')
    
@@ -118,10 +118,10 @@ def getLoginDetails():
         if len(user) >= 1:
             session['logged_in'] = True
             session['uname'] = request.form['uname']
-            return render_template('index.html', result=session['uname'])
+            return render_template('index.html', result=session['uname']), 200
         else:
             flash('Wrong username or password')
-        return render_template('user_login.html')
+            return render_template('user_login.html'), 401
     return render_template('user_login.html')
 
 
@@ -161,20 +161,20 @@ def reset_password():
         user = [user for user in users if user['pwd'] == opwd]
         if len(user) == 0:
             flash('Old Password Incorrect')
-            return render_template('reset_password.html')
+            return render_template('reset_password.html'), 400
         elif not opwd or not npwd or not cpwd:
             flash('All fields must be filled in')
-            return render_template('reset_password.html')
+            return render_template('reset_password.html'), 400
         elif len(npwd) <= 7:
             flash('Password too short!Enter at least 8 characters')
-            return render_template('reset_password.html')
+            return render_template('reset_password.html'), 400
         elif npwd != cpwd:
             flash('Passwords must match')
-            return render_template('reset_password.html')
+            return render_template('reset_password.html'), 400
         user[0]['pwd'] = request.form.get('npwd', user[0]['pwd'])
         #return jsonify({'user': user[0]})--shows the new details for the user ie new password and the other details
         flash('Password successfully changed')
-        return redirect(url_for('home'))
+        return render_template('index.html'), 200
 #///GET///    
     return render_template('reset_password.html')
 
@@ -188,29 +188,30 @@ def reset_password():
 @app.route('/brightEvents/api/v1/events', methods=['GET','POST'])
 def create_events():
     if request.method == 'POST':
-        if session.get('logged_in'):
-            eventName = request.form['eventName']
-            location= request.form['location']
-            date = request.form['date']
-            
-            if not eventName or not location or not date:
-                message = Markup("All fields must be filled")
-                flash(message)
-                return render_template('index.html'), 400
+        if not session.get('logged_in'):
+            flash('You need to login to create an event')
+            return render_template('user_login.html'), 401
+        eventName = request.form['eventName']
+        location= request.form['location']
+        date = request.form['date']
+        if not eventName or not location or not date:
+            message = Markup("All fields must be filled")
+            flash(message)
+            return render_template('index.html'), 400
         
         
-            event={
+        event={
             'eventID': events[-1]['eventID'] + 1,
             'eventName':eventName ,
             'location':location ,
             'date': date
             
             }
-            events.append(event)
-            flash('Event added successfully')
-            return render_template('userEvents.html', result=events)
-            #return jsonify(events), 201 -----would apply if the api was not connected to the templates
-            return render_template('user_login.html')
+        events.append(event)
+        flash('Event added successfully')
+        return render_template('userEvents.html', result=events)
+        #return jsonify(events), 201 -----would apply if the api was not connected to the templates
+    
     return get_allEvents()
 
 
@@ -255,7 +256,7 @@ def update_event(eventID):
     event[0]['location'] = request.form.get('location', event[0]['location'])
     event[0]['date'] = request.form.get('date', event[0]['date'])
     #return jsonify({'event': event[0]})
-    return jsonify(events)
+    return jsonify(events), 201 #code for updated successfully
 
 
 
@@ -271,9 +272,9 @@ def delete_event(eventID):
     if len(event) == 0:
         abort(404)
         return jsonify({'Message': 'Event specified does not exist'}), 404
-    event.remove(event[0])
-    #return jsonify({'result': True})
-    return jsonify(events)
+    events.remove(event[0])
+    #return jsonify(events)--- would apply for postman/not using templates
+    return render_template('userEvents.html', result=events)
 
 
 #Function to rsvp to an event
@@ -313,10 +314,10 @@ def rsvp(eventID):
         reply=request.form['reply']
         if not uname or not email or not reply:
             flash('All fields must be filled in')
-            return render_template('rsvp.html',eventID = eventID)
+            return render_template('rsvp.html',eventID = eventID), 400
         elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
             flash("Enter a valid email address")
-            return render_template('rsvp.html',eventID = eventID)
+            return render_template('rsvp.html',eventID = eventID), 400
         guest={
             'eventID':eventID,
             'eventName':eventName,
