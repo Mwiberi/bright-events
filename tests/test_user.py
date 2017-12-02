@@ -1,6 +1,6 @@
 import unittest
 
-from app.models import User, Event
+from app.models import User
 
 
 class userRegistrationDetailsTestCase(unittest.TestCase):

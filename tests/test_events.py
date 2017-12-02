@@ -1,12 +1,11 @@
 import unittest
 
-from app.events import Event
+from app.models import Event
 
 class eventsCreation(unittest.TestCase):
     def setUp(self):
-        eve=event(1, 2, 3, 4)
+        self.eve=Event(1, 2, 3, 4)
 
     def test_typeOfFields(self):
-        eve=event(1, 2, 3, 4)
-        result=eve.add_event(1, 2, 3, 4)
+        result=self.eve.create_event(1, 2, 3)
         self.assertEquals("Invalid input. Enter character elements", result)
