@@ -85,8 +85,6 @@ class Event(object):
         
 
     def create_event(self, eventName, location, date):
-        if type(eventName) or type(location)  or type (date) == int:
-            return("Invalid input. Enter character elements")
         
         if not eventName or not location or not date:
             return("All fields must be filled in")
@@ -105,9 +103,10 @@ class Event(object):
     def retrieve_event(self, eventID):
         if type(eventID)!= int:
             return 'Invalid event ID. Event ID should be a number'
-    def RSVP_event(self, eventID):
-        if type(eventID)!= int:
-            return 'Invalid event ID. Event ID should be a number'
+    def rsvp_event(self, uname, email, reply):
+         if not uname or not email or not reply:
+            return('Kindly fill out all the form fields')
+
 
     def view_eventGuests(self, eventID):
         if type(eventID)!= int:
