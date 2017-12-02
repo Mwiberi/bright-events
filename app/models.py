@@ -34,23 +34,19 @@ class User(object):
         
 
     def create_user(self,fname, lname,uname,email,pwd):
-        
-        if fname and lname and uname and email and pwd:
-            if type(fname) or type(name) or type(uname) !=str:
-                return "Invalid input. Enter character elements"
-            
-            elif len(pwd) <= 7:
-                return("Password length too small")
-            elif re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) == None:
-                return "Enter a valid email address"
-            elif pwd != cpwd:
-                return('Passwords must match')
-            else:
-                 #store details in a dictionary
-                self.users.append = ({'fname':fname,'lname':lname,'uname':uname,'email':email, 'pwd':pwd})
-            
+        if not fname or not lname or not uname or not email or not pwd:
+            return('Kindly fill out all the form fields')
+
+        elif len(pwd) <= 7:
+            return("Password length too small")
+        elif re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) == None:
+            return "Enter a valid email address"
+        elif pwd != cpwd:
+            return('Passwords must match')
         else:
-            return "Kindly fill out all the form fields"
+            #store details in a dictionary
+            self.users.append = ({'fname':fname,'lname':lname,'uname':uname,'email':email, 'pwd':pwd})
+            
 
   
     def login_user(self, uname, pwd):
@@ -65,13 +61,13 @@ class User(object):
               
             
     def user_logout():
-        session['logged_in'] = True 
+        session['logged_in'] = False 
         return "successfully logged out"
 
 class Event(object):
     #dummy data for events
     #Also where the events created will be stored 
-    events[
+    events=[
         {
         'eventName': 'Coke studio Africa',
         'eventID': 1,
@@ -99,8 +95,8 @@ class Event(object):
 
     def create_event(self):
         
-        if type(name) or type(location) !=str:
-            return "Invalid input. Enter character elements"
+        if not eventName or not location or not date:
+            return "All fields must be filled in"
         if name and eventID and location and date:
             print(">>>>", )
             #store details in a dictionary
