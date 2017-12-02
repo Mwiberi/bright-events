@@ -49,12 +49,11 @@ class User(object):
     def login_user(self, uname, pwd):
         if not uname or not pwd:
             return("Kindly fill out all the form fields")
+    def reset_password(self, opwd,npwd,cpwd):
+        if not opwd or not npwd or not cpwd:
+            return('Kindly fill out all the form fields')
+       
 
-              
-            
-    def user_logout():
-        session['logged_in'] = False 
-        return "successfully logged out"
 
 class Event(object):
     #dummy data for events

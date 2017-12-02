@@ -22,3 +22,6 @@ class userRegistrationDetailsTestCase(unittest.TestCase):
     def test_loginDetails(self):
         result=self.myUser.login_user("", "")
         self.assertEquals("Kindly fill out all the form fields", result)
+    def test_loginDetails(self):
+        result=self.myUser.reset_password("", "", "")
+        self.assertEquals("Kindly fill out all the form fields", result)
