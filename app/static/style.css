@@ -1,0 +1,15 @@
+.nav-wrapper {
+    background-color: rgb(38,166,154) !important;
+    }
+h3 {
+    font-family: Lucida Calligraphy;
+    }
+body {
+    background-image: url(static/home6.jpg);
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+    background-color:#000000 black;
+    }
+      

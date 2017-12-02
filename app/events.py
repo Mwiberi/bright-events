@@ -1,14 +1,28 @@
 class Event(object):
+    events[
+        {
+        'eventName': 'Coke studio Africa',
+        'eventID': 1,
+        'location': 'Nairobi', 
+        'date': '12-13-2017'
 
-    def __init__(self,name, eventID,location,date):
-        
-        self.name = name
-        self.eventID =eventID
-        self.location =location
-        self.date =date
-        
+    },
+    {
+        'eventName': 'Don Moen concert',
+        'eventID': 2,
+        'location': 'Citam', 
+        'date': '11-12-2017'
 
-        self.event_details={}
+    }
+    ]
+
+    def __init__(self,eventName, eventID,location,date):
+        
+        self.eventName  = eventName
+        self.eventID    =eventID
+        self.location   =location
+        self.date       =date
+        
         
 
     def create_event(self):

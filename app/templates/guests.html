@@ -10,61 +10,40 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <style>
-      .nav-wrapper {
-        background-color: rgb(38,166,154) !important;
-        }
-      h3 {
-        font-family: Lucida Calligraphy;
-        }
-        body {
-    background-image: url("static/home6.jpg");
-    background-size:cover;
-    background-repeat: no-repeat;
-    background-position: right top;
-    background-attachment: fixed;
-    background-color:#000000 black;
-      }
-      </style>
     </head>
 
-    <body background="home8.jpg">
+    <body>
 
         <div class="container">
             <div class="column">
             <form>
-        <div class='card-panel teal lighten-2'><h4>Below is a list of events you have created</h4>
+        <div class='card-panel teal lighten-2'><h4>Guests that have subscribed to your events</h4>
         </div>
-        <div class="#ff3d00 deep-orange accent-3">
-  {% for message in get_flashed_messages() %}
-    {{ message|safe }}
-  {% endfor %}
-</div>
+        
                 
-	<!--A table to display the events in a tabular manner-->   
+	<!--A table to display the guests in a tabular manner-->   
 
-<table class="card-panel bordered" >
+<table class="card panel bordered" >
         <thead>
           <tr>
             <th>Event ID </th>
             <th>Event Title </th>
-            <th>Location </th>
-            <th>Date </th>
-            <th>Edit </th>
-            <th>Delete </th>
+            <th>username </th>
+            <th>email </th>
+            <th>Message </th>
+            
             
           </tr>
         </thead>
 
-        <tbody>{% for event in result %}
+        <tbody>{% for guest in result %}
           
             <tr>
-            <td>{{ event.eventID }}</td>
-            <td>{{ event.eventName }}</td>
-            <td>{{ event.location }}</td>
-            <td>{{ event.date }}</td>
-            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}' , methods=['PUT']> Edit</td>
-            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}' , methods=['DELETE']> Delete</td>
+            <td>{{ guest.eventID }}</td>
+            <td>{{ guest.eventName }}</td>
+            <td>{{ guest.uname }}</td>
+            <td>{{ guest.email }}</td>
+            <td>{{ guest.reply }}</td>
             
           </tr>
           {% endfor %}
@@ -75,7 +54,6 @@
     <form>
         </div>
 
-        
         <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
       <!--Import jQuery before materialize.js-->

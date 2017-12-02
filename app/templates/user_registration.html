@@ -12,11 +12,16 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 
-    <body>
+    <body background="home7.jpg">
         <div class="container valign center">
             <div class="column">
             <form action="/brightEvents/api/v1/auth/register" method="POST">
         <div class='card-panel teal lighten-2'><h4>Enter Your Registration Details</h4>
+        </div>
+        <div class="#ff3d00 deep-orange accent-3">
+        {% for message in get_flashed_messages() %}
+        {{ message|safe }}
+        {% endfor %}
         </div>
                 
 	First Name<input type="text" name = 'fname' placeholder="Susan">

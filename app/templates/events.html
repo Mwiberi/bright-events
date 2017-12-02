@@ -19,11 +19,12 @@
         font-family: Lucida Calligraphy;
         }
         body {
-    background-image: url("static/home8.jpg");
+    background-image: url("static/home6.jpg");
+    background-size:cover;
     background-repeat: no-repeat;
     background-position: right top;
     background-attachment: fixed;
-    background-color:#000000 black;
+    
       }
       </style>
     </head>
@@ -49,13 +50,16 @@
         <div class="container">
             <div class="column">
             <form>
-                <div><h4 class="center-align">Events Available</h4></div>
+                <div><h4 class="card-panel center-align">Events Available</h4></div>
                 <div class="#ff3d00 deep-orange accent-3">
+                  {% for message in get_flashed_messages() %}
+                  {{ message|safe }}
+                  {% endfor %}
                 </div>
                 
 	<!--A table to display the events in a tabular manner-->   
 
-<table class="bordered" >
+<table class="card-panel bordered" >
         <thead>
           <tr>
             <th>Event ID </th>
@@ -75,7 +79,7 @@
             <td>{{ event.eventName }}</td>
             <td>{{ event.location }}</td>
             <td>{{ event.date }}</td>
-            <td><a href='/brightEvents/api/v1/events/<int:eventID>/rsvp' , methods=['POST']>RSVP</td>
+            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}/rsvp' , methods=['POST']>RSVP</td>
             
             
           </tr>
