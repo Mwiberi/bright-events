@@ -33,14 +33,14 @@ class User(object):
 
         
 
-    def create_user(self,fname, lname,uname,email,pwd):
+    def create_user(self,fname, lname,uname,email,pwd, cpwd):
         if not fname or not lname or not uname or not email or not pwd:
             return('Kindly fill out all the form fields')
 
         elif len(pwd) <= 7:
             return("Password length too small")
-        elif re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email) == None:
-            return "Enter a valid email address"
+        elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
+            return("Enter a valid email address")
         elif pwd != cpwd:
             return('Passwords must match')
         else:
