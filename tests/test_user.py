@@ -21,6 +21,12 @@ class userRegistrationDetailsTestCase(unittest.TestCase):
     def test_loginDetails(self):
         result=self.myUser.login_user("", "")
         self.assertEquals("Kindly fill out all the form fields", result)
-    def test_loginDetails(self):
+    def test_restPasswordDetailsEmpty(self):
         result=self.myUser.reset_password("", "", "")
         self.assertEquals("Kindly fill out all the form fields", result)
+    def test_resetPasswordDetails(self):
+        result=self.myUser.reset_password("111", "111", "111")
+        self.assertEquals("Password length too short. Enter atleast 8 characters", result)
+    def test_resetPasswordMatch(self):
+        result=self.myUser.reset_password("111", "111111111", "111444444")
+        self.assertEquals("Passwords must match", result)

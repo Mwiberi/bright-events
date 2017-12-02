@@ -52,7 +52,10 @@ class User(object):
     def reset_password(self, opwd,npwd,cpwd):
         if not opwd or not npwd or not cpwd:
             return('Kindly fill out all the form fields')
-       
+        elif len(npwd) < 8:
+            return('Password length too short. Enter atleast 8 characters')
+        elif npwd != cpwd:
+            return('Passwords must match')
 
 
 class Event(object):
