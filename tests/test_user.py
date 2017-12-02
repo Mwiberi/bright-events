@@ -19,6 +19,6 @@ class userRegistrationDetailsTestCase(unittest.TestCase):
     def test_passwordMatch(self):
         result=self.myUser.create_user("sue", "smith","sue" , "sue@outlook.com", "vnbnjncxjhjhg", "ahGSFBJNd")
         self.assertEquals("Passwords must match", result)
-
-
-
+    def test_loginDetails(self):
+        result=self.myUser.login_user("", "")
+        self.assertEquals("Kindly fill out all the form fields", result)

@@ -36,7 +36,6 @@ class User(object):
     def create_user(self,fname, lname,uname,email,pwd, cpwd):
         if not fname or not lname or not uname or not email or not pwd:
             return('Kindly fill out all the form fields')
-
         elif len(pwd) <= 7:
             return("Password length too small")
         elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) == None:
@@ -47,16 +46,9 @@ class User(object):
             #store details in a dictionary
             self.users.append = ({'fname':fname,'lname':lname,'uname':uname,'email':email, 'pwd':pwd})
             
-
-  
     def login_user(self, uname, pwd):
-        if not uname and pwd:
-            return "Kindly fill out all the form fields"
-        user = [user for user in users if user['uname'] == request.form['uname'] and user['pwd'] == request.form['pwd']]
-        if len(user)>0:
-            session['logged_in'] = True
-        else:
-            return 'Wrong username or password'
+        if not uname or not pwd:
+            return("Kindly fill out all the form fields")
 
               
             
