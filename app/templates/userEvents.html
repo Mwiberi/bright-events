@@ -63,6 +63,7 @@
             <th>Event Title </th>
             <th>Location </th>
             <th>Date </th>
+            <th>Time</th>
             <th>Edit </th>
             <th>Delete </th>
             
@@ -76,6 +77,7 @@
             <td>{{ event.eventName }}</td>
             <td>{{ event.location }}</td>
             <td>{{ event.date }}</td>
+            <td>{{ event.time }}</td>
             <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}' , methods=['PUT']> Edit</td>
             <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}' , methods=['DELETE']> Delete</td>
             
