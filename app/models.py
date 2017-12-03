@@ -73,7 +73,7 @@ class User(object):
     def login_user(self, uname, pwd):
         if not uname or not pwd:
             flash("Kindly fill out all the form fields")
-            user = [user for user in users if user['uname'] == uname and user['pwd'] == pwd]
+            user = [user for user in self.users if user['uname'] == uname and user['pwd'] == pwd]
             if len(user) >= 1:
                 self.session['logged_in'] = True
                 self.session['uname'] = request.form['uname']
@@ -83,7 +83,7 @@ class User(object):
                 return render_template('user_login.html'), 401
 
     def reset_password(self, opwd,npwd,cpwd):
-        user = [user for user in users if user['pwd'] == opwd]
+        user = [user for user in self.users if user['pwd'] == opwd]
         if len(user) == 0:
             flash('Old Password Incorrect')
             return render_template('reset_password.html'), 400
