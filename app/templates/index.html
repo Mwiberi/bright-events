@@ -66,6 +66,7 @@
   Event Name<input type="text" name="eventName" placeholder="Coke Studio 4">
 	Location<input type="text" name="location" placeholder="Karen">
 	Date<input type="date" name="date" placeholder="25th Dec, 2017" min="2017-12-04" class="datepicker">
+  Time<input type="time" name="time" placeholder="12.00PM" class="timepicker">
   
                 
           
@@ -110,6 +111,7 @@
         
         <!-- Compiled and minified JavaScript -->
       <script>
+        //Date picker
       $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -118,6 +120,14 @@
       close: 'Ok',
       closeOnSelect: false // Close upon selecting a date,
     });
+    //Time Picker:
+$('.timepicker').pickatime({
+    default: 'now',
+    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
+    donetext: 'OK',
+  autoclose: false,
+  vibrate: true // vibrate the device when dragging clock hand
+});
     </script>
     
         <!--Import jQuery before materialize.js-->

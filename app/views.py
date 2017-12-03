@@ -194,7 +194,8 @@ def create_events():
         eventName = request.form['eventName']
         location= request.form['location']
         date = request.form['date']
-        if not eventName or not location or not date:
+        time = request.form['time']
+        if not eventName or not location or not date or not time:
             message = Markup("All fields must be filled")
             flash(message)
             return render_template('index.html'), 400
@@ -204,7 +205,8 @@ def create_events():
             'eventID': events[-1]['eventID'] + 1,
             'eventName':eventName ,
             'location':location ,
-            'date': date
+            'date': date,
+            'time': time
             
             }
         events.append(event)
