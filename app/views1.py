@@ -2,62 +2,19 @@
 from flask import Flask, jsonify
 from flask import Flask, flash, redirect, render_template, request, session, abort, make_response, Markup
 from flask_httpauth import HTTPBasicAuth
-from users import User
+from models import User, Event, Guest
 import re
 
 # create an object of HTTPBasicAuth
 auth = HTTPBasicAuth()
-
+#declare instances of the classes
+User=User(1, 2, 3, 4, 5, 6)
+Event=Event(1, 2, 3, 4)
+Guest=Guest(1, 2, 3, 4, 5, 6)
 
 app = Flask(__name__)
 app.secret_key = "superdooper1"
-users = [
-    {
-        'userID': 1,
-        'fname': 'sue',
-        'lname': 'smith',
-        'uname': 'sue',
-        'email': 'sue@outlook.com',
-        'pwd': 'sue',
-        'cpwd': 'sue'
 
-    },
-    {
-        'userID': 2,
-        'fname': 'sam',
-        'lname': 'smith',
-        'uname': 'sam',
-        'email': 'sam@outlook.com',
-        'pwd': 'sam'
-    }
-]
-
-
-events = [
-    {
-        'eventName': 'Coke studio Africa',
-        'eventID': 1,
-        'location': 'Nairobi',
-        'date': '12-13-2017'
-
-    },
-    {
-        'eventName': 'Don Moen concert',
-        'eventID': 2,
-        'location': 'Citam',
-        'date': '11-12-2017'
-
-    }
-]
-guests = [{
-    'uname': 'John',
-    'email': 'smiles@gmail.com',
-    'eventName': 'Coke studio Africa',
-    'eventID': 1,
-    'reply': 'I will be attending'
-}
-
-]
 #/////////////////////////USER SIDE////////////////////////////
 
 # Function to create a new user
@@ -72,32 +29,8 @@ def create_users():
         email = request.form.get('email')
         pwd = request.form.get('pwd')
         cpwd = request.form.get('cpwd')
-        # checking if there's any empty fields
-        if not fname or not lname or not uname or not email or not pwd:
-            flash("All form fields must be filled ")
-            return render_template('user_registration.html'), 400
-        elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) is None:
-            flash("Enter a valid email address")
-            return render_template('user_registration.html'), 400
-        elif len(pwd) <= 7 or len(cpwd) <= 7:
-            flash("Password length too small. Enter at least 8 characters")
-            return render_template('user_registration.html'), 400
-        elif pwd != cpwd:
-            flash("Passwords don't match!")
-            return render_template('user_registration.html'), 400
-
-       # user=User(fname, lname, uname, email, pwd)
-
-        user = {
-            'userID': users[-1]['userID'] + 1,
-            'fname': fname,
-            'lname': lname,
-            'uname': uname,
-            'email': email,
-            'pwd': pwd,
-
-        }
-        users.append(user)
+        
+        user=User.create_user(fname, lname, uname, email, pwd, cpwd)
         flash('Thanks for signing up please login')
         return render_template('user_login.html'), 200
         # return jsonify(users), 201
@@ -111,23 +44,18 @@ def create_users():
 @auth.get_password
 def getLoginDetails():
     if request.method == 'POST':
-        user = [user for user in users if user['uname'] ==
-                request.form['uname'] and user['pwd'] == request.form['pwd']]
-        if len(user) >= 1:
-            session['logged_in'] = True
-            session['uname'] = request.form['uname']
-            return render_template('index.html', result=session['uname']), 200
-        else:
-            flash('Wrong username or password')
-            return render_template('user_login.html'), 401
-    return render_template('user_login.html')
+        uname = request.form['uname']
+        pwd = request.form['pwd']
+        user= User.login_user(uname, pwd)
+    else:
+        return render_template('user_login.html')
 
 
 # Function to access the home page
 @app.route('/')
 def home():
     if not session.get('logged_in'):
-        return render_template('events.html', result=events)
+        return render_template('events.html', result=Event.events)
     else:
         return render_template('index.html')
 
@@ -153,25 +81,7 @@ def reset_password():
         opwd = request.form['opwd']
         npwd = request.form['npwd']
         cpwd = request.form['cpwd']
-
-        user = [user for user in users if user['pwd'] == opwd]
-        if len(user) == 0:
-            flash('Old Password Incorrect')
-            return render_template('reset_password.html'), 400
-        elif not opwd or not npwd or not cpwd:
-            flash('All fields must be filled in')
-            return render_template('reset_password.html'), 400
-        elif len(npwd) <= 7:
-            flash('Password too short!Enter at least 8 characters')
-            return render_template('reset_password.html'), 400
-        elif npwd != cpwd:
-            flash('Passwords must match')
-            return render_template('reset_password.html'), 400
-        user[0]['pwd'] = request.form.get('npwd', user[0]['pwd'])
-        # return jsonify({'user': user[0]})--shows the new details for the user
-        # ie new password and the other details
-        flash('Password successfully changed')
-        return render_template('index.html'), 200
+        reset=User.reset_password(opwd,npwd,cpwd)
 #///GET///
     return render_template('reset_password.html')
 
@@ -189,23 +99,7 @@ def create_events():
         eventName = request.form['eventName']
         location = request.form['location']
         date = request.form['date']
-        if not eventName or not location or not date:
-            message = Markup("All fields must be filled")
-            flash(message)
-            return render_template('index.html'), 400
-
-        event = {
-            'eventID': events[-1]['eventID'] + 1,
-            'eventName': eventName,
-            'location': location,
-            'date': date
-
-        }
-        events.append(event)
-        flash('Event added successfully')
-        return render_template('userEvents.html', result=events)
-        # return jsonify(events), 201 -----would apply if the api was not
-        # connected to the templates
+        eve=User.create_event(eventName, location, date)
 
     return get_allEvents()
 
@@ -213,7 +107,7 @@ def create_events():
 # Function to get all the events
 @app.route('/brightEvents/api/v1/events', methods=['GET'])
 def get_allEvents():
-    return render_template('userEvents.html', result=events)
+    return render_template('userEvents.html', result=Event.events)
     # return jsonify(events), 201 --. would apply if the api was not connected
     # to the templates
 
@@ -221,7 +115,7 @@ def get_allEvents():
 # Function to the get event based on the ID
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['GET'])
 def get_event(eventID):
-    event = [event for event in events if event['eventID'] == eventID]
+    event = [event for event in Event.events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
     # results=[]
@@ -241,7 +135,7 @@ def not_found(error):
 
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['PUT'])
 def update_event(eventID):
-    event = [event for event in events if event['eventID'] == eventID]
+    event = [event for event in Event.events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
     # if type(request.form['eventName']) is not str:
@@ -254,7 +148,7 @@ def update_event(eventID):
     event[0]['location'] = request.form.get('location', event[0]['location'])
     event[0]['date'] = request.form.get('date', event[0]['date'])
     # return jsonify({'event': event[0]})
-    return jsonify(events), 201  # code for updated successfully
+    return jsonify(Event.events), 201  # code for updated successfully
 
 
 # creating a much better error 400 response
@@ -268,13 +162,13 @@ def bad_request(error):
 
 @app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['DELETE'])
 def delete_event(eventID):
-    event = [event for event in events if event['eventID'] == eventID]
+    event = [event for event in Event.events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
         return jsonify({'Message': 'Event specified does not exist'}), 404
     events.remove(event[0])
     # return jsonify(events)--- would apply for postman/not using templates
-    return render_template('userEvents.html', result=events)
+    return render_template('userEvents.html', result=Event.events)
 
 
 # Function to rsvp to an event
@@ -284,8 +178,7 @@ def delete_event(eventID):
         'GET',
         'POST'])
 def rsvp(eventID):
-
-    event = [event for event in events if event['eventID'] == eventID]
+    event = [event for event in Event.events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
     if request.method == 'POST':
@@ -316,32 +209,16 @@ def rsvp(eventID):
         uname = request.form['uname']
         email = request.form['email']
         reply = request.form['reply']
-        if not uname or not email or not reply:
-            flash('All fields must be filled in')
-            return render_template('rsvp.html', eventID=eventID), 400
-        elif re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email) is None:
-            flash("Enter a valid email address")
-            return render_template('rsvp.html', eventID=eventID), 400
-        guest = {
-            'eventID': eventID,
-            'eventName': eventName,
-            'uname': uname,
-            'email': email,
-            'reply': reply
-        }
-        guests.append(guest)
-        flash('You have sent your rsvp')
-        # return jsonify(guests)
-        return render_template('events.html', result=events)
-    ###GET##
 
+        guest = Guest.rsvp(uname, email, reply, eventName, eventID)
+    ###GET##
     return render_template('rsvp.html', eventID=eventID)
 
 
 # Function to get all guests
 @app.route('/brightEvents/api/v1/events/guests', methods=['GET'])
 def getGuests():
-    return render_template('guests.html', result=guests)
+    return render_template('guests.html', result=Guest.guests)
 
 
 
