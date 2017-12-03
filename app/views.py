@@ -40,14 +40,16 @@ events = [
         'eventName': 'Coke studio Africa',
         'eventID': 1,
         'location': 'Nairobi', 
-        'date': '12-13-2017'
+        'date': '12-13-2017',
+        'time': '12:00 PM'
 
     },
     {
         'eventName': 'Don Moen concert',
         'eventID': 2,
         'location': 'Citam', 
-        'date': '11-12-2017'
+        'date': '11-12-2017',
+        'time': '01:00 PM'
 
     }
 ]
@@ -288,28 +290,34 @@ def rsvp(eventID):
     if len(event) == 0:
         abort(404)
     if request.method == 'POST':
-        '''
-        user = [user for user in users if user['uname'] == uname]
-        if len(user) == 0:
-            abort(404)
-        eventID=event[0]['eventID']
-        uname=user['uname']
-        email=user['email']
-        userID=user[0]['userID']
-        reply=request.form('reply')
-        guest={
+        
+        if 'uname' in session:
+            user = [user for user in User.users if user['uname'] == session['uname']]
+            if len(user) == 0:
+                abort(404)
+            eventID=event[0]['eventID']
+            eventName=event[0]['eventName']
+            uname=user[0]['uname']
+            email=user[0]['email']
+            userID=user[0]['userID']
+            reply=request.form['reply']
+            if not reply:
+                flash('All fields must be filled in')
+                return render_template('rsvp.html',eventID = eventID), 400
+            guest={
             'eventID':eventID,
+            'eventName': eventName,
             'uname' :uname,
             'email' :email,
             'userID':userID,
             'reply' :reply
 
             }
-        guests.append(guest)
-        return 'You have sent your rsvp'
-        return jsonify(guests)
-        #return render_template('events.html', event = event)'''
-            
+            guests.append(guest)
+            flash('You have sent your rsvp')
+            #return jsonify(guests)
+            return render_template('events.html', result = events)
+   
         eventID=event[0]['eventID']
         eventName=event[0]['eventName']
         uname=request.form['uname']
