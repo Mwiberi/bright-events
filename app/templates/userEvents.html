@@ -78,8 +78,8 @@
             <td>{{ event.location }}</td>
             <td>{{ event.date }}</td>
             <td>{{ event.time }}</td>
-            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}' , methods=['PUT']> Edit</td>
-            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}}' , methods=['DELETE']> Delete</td>
+            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}} , method == 'PUT'> Edit</td>
+            <td><a href='/brightEvents/api/v1/events/{{event['eventID']}} , method == 'DELETE'> Delete</td>
             
           </tr>
           {% endfor %}
