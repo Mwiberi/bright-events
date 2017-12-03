@@ -16,3 +16,7 @@ class eventsCreation(unittest.TestCase):
     def test_rsvpDetails(self):
         result=self.eve1.rsvp("", "", "", "", "")
         self.assertEquals("Kindly fill out all the form fields", result)
+    def test_rsvpEmail(self):
+        result=self.eve1.rsvp("sdfSF", "SDFSDF", "SFSDGF", "DFDSG", "DGBB")
+        self.assertEquals("Enter a valid email address", result)
+
