@@ -273,6 +273,7 @@ def delete_event(eventID):
         abort(404)
         return jsonify({'Message': 'Event specified does not exist'}), 404
     events.remove(event[0])
+
     #return jsonify(events)--- would apply for postman/not using templates
     return render_template('userEvents.html', result=events)
 
