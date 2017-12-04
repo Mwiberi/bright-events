@@ -246,7 +246,7 @@ def not_found(error):
     return make_response(jsonify({'Error': 'Not found'}), 404)
 
 #Function to update an event
-@app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['PUT'])
+@app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['GET','POST','PUT'])
 def update_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
@@ -261,7 +261,8 @@ def update_event(eventID):
     event[0]['date'] = request.form.get('date', event[0]['date'])
     event[0]['time'] = request.form.get('time', event[0]['time'])
     #return jsonify({'event': event[0]})
-    return jsonify(events), 201 #code for updated successfully
+    #return jsonify(events), 201 #code for updated successfully
+    return render_template('userEvents.html', result=events)
 
 
 
@@ -271,12 +272,14 @@ def bad_request(error):
     return make_response(jsonify({'Error': 'Details entered are incorrect'}), 400)
 
 #Function to delete an event based on the ID
-@app.route('/brightEvents/api/v1/events/<int:eventID>', methods=['DELETE'])
+@app.route('/brightEvents/api/v1/events/delete/<int:eventID>', methods=['GET', 'POST', 'DELETE'])
 def delete_event(eventID):
     event = [event for event in events if event['eventID'] == eventID]
     if len(event) == 0:
         abort(404)
-        return jsonify({'Message': 'Event specified does not exist'}), 404
+        flash('Event specified does not exist')
+        return render_template('userEvents.html', result=events)
+
     events.remove(event[0])
 
     #return jsonify(events)--- would apply for postman/not using templates
