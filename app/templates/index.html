@@ -46,7 +46,11 @@
         <li><a href='/brightEvents/api/v1/auth/reset_password'>Reset Password</a>
         <li><a href='/brightEvents/api/v1/auth/logout'>Logout</a>
      
- </ul>
+    </ul>
+    <ul>
+    <li><a href='/'><h3 class="center-align"> BRIGHT EVENTS </h3></a> 
+    </ul>
+
     </div>
   </nav>
 
@@ -55,7 +59,7 @@
       <div class="container valign center">
             <div class="column">
             <form action="/brightEvents/api/v1/events" method="POST">
-        <div><h4>Create Your Event Below</h4>
+        <div><h5>Create Your Event Below</h5>
         </div>
         <div class="#ff3d00 deep-orange accent-3">
           {% for message in get_flashed_messages() %}

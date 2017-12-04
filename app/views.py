@@ -259,6 +259,7 @@ def update_event(eventID):
     event[0]['eventName'] = request.form.get('eventName', event[0]['eventName'])
     event[0]['location'] = request.form.get('location', event[0]['location'])
     event[0]['date'] = request.form.get('date', event[0]['date'])
+    event[0]['time'] = request.form.get('time', event[0]['time'])
     #return jsonify({'event': event[0]})
     return jsonify(events), 201 #code for updated successfully
 
