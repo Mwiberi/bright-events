@@ -3,7 +3,7 @@ Bright events provides a platform for event organizers to create and manage diff
 #github pages
 Inorder to see the look  of the application's user interface, go to link=https://mwiberi.github.io/design/UI/user_registration.html
 #Travis CI
-linkl=https://travis-ci.org/Mwiberi/Mwiberi.github.io
+[![Build Status](https://travis-ci.org/Mwiberi/Mwiberi.github.io.svg?branch=master)](https://travis-ci.org/Mwiberi/Mwiberi.github.io)
 
 #Documentation
 The endpoints are as follows
