@@ -218,9 +218,6 @@ def create_events():
     
     return get_allEvents()
 
-
-
-
 #Function to get all the events
 @app.route('/brightEvents/api/v1/events',methods=['GET'])
 def get_allEvents():
