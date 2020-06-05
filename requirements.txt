@@ -9,7 +9,7 @@ coverage==4.4.2
 debtagshw==0.1
 defer==1.0.6
 dirspec==13.10
-Django==1.11.7
+Django==1.11.29
 duplicity==0.6.23
 easygui==0.98.1
 Flask==0.12
