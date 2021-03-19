@@ -17,7 +17,7 @@ gyp==0.1
 html5lib==0.999
 httplib2==0.8
 itsdangerous==0.24
-Jinja2==2.9.5
+Jinja2==2.11.3
 Kivy==1.7.2
 lockfile==0.8
 logilab-common==0.61.0
